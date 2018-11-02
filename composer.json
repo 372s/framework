@@ -1,0 +1,14 @@
+{
+    "name": "wpollen/framework",
+    "description": "框架基础设置",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "王强",
+            "email": "wangqiang@medlive.cn"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
