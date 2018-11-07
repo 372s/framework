@@ -3,6 +3,7 @@ namespace Wpollen\Filesystem;
 
 use Exception;
 use FilesystemIterator;
+use DirectoryIterator;
 
 class Filesystem
 {
@@ -400,10 +401,10 @@ class Filesystem
      * @param  bool  $hidden
      * @return array
      */
-    // public function allFiles($directory, $hidden = false)
-    // {
-    //     return iterator_to_array(Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory), false);
-    // }
+    public function allFiles($directory, $hidden = false)
+    {
+        return iterator_to_array(Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory), false);
+    }
 
     /**
      * Get all of the directories within a given directory.
