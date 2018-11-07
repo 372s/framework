@@ -88,6 +88,9 @@ class Router {
      * $after: Processor After. It will process the value returned by Controller.
      * Example: View@process
      *
+     * @throws \Exception
+     * @param mixed $after
+     * @return mixed
      */
     public static function dispatch($after = null)
     {
@@ -95,8 +98,7 @@ class Router {
         $method = $_SERVER['REQUEST_METHOD'];
         $routeMatch = false;
         // check if route is defined without regex
-
-        print_r(self::$routes);
+        // print_r(self::$routes);
         if (in_array($uri, self::$routes)) {
             $route_pos = array_keys(self::$routes, $uri);
             $route = current($route_pos);
@@ -138,6 +140,8 @@ class Router {
                     if ($after) {
                         $after_segments = explode('@', $after);
                         $after_segments[0]::{$after_segments[1]}($return);
+                    } else {
+                        return $return;
                     }
                 }
             }
@@ -215,8 +219,9 @@ class Router {
                             if ($after) {
                                 $after_segments = explode('@', $after);
                                 $after_segments[0]::{$after_segments[1]}($return);
+                            } else {
+                                return $return;
                             }
-
                         }
                     }
                 }
