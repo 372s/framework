@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpollen\Bootstrap;
+namespace Wpollen\Foundation\Bootstrap;
 
 use TinyLara\Stone\Application;
 use Illuminate\Database\Capsule\Manager as Capsule;
