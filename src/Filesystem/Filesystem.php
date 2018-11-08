@@ -426,23 +426,15 @@ class Filesystem
      */
     public function directories($directory)
     {
-        $directory = new RecursiveDirectoryIterator($directory, RecursiveIteratorIterator::LEAVES_ONLY);
-        $iterator = new RecursiveIteratorIterator($directory);
+        $directory = new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS);
+        $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
         $dirs = array();
         foreach ($iterator as $dir) {
             if ($dir->isDir()) {
-                $dirs[] = rtrim($dir->getPathname(), '.');
+                $dirs[] = $dir->getPathname();
             }
         }
-        return array_unique($dirs);
-
-        // $directories = [];
-        //
-        // foreach (Finder::create()->in($directory)->directories()->depth(0) as $dir) {
-        //     $directories[] = $dir->getPathname();
-        // }
-        //
-        // return $directories;
+        return $dirs;
     }
 
     /**
