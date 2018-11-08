@@ -1,5 +1,6 @@
 <?php
 
+use Wpollen\View\View;
 
 /**
  * Determine whether the current environment is Windows based.
