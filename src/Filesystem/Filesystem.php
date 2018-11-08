@@ -3,7 +3,8 @@ namespace Wpollen\Filesystem;
 
 use Exception;
 use FilesystemIterator;
-use DirectoryIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Filesystem
 {
@@ -403,7 +404,18 @@ class Filesystem
      */
     public function allFiles($directory, $hidden = false)
     {
-        return iterator_to_array(Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory), false);
+        if ($hidden) {
+            $flags = FilesystemIterator::SKIP_DOTS;
+        } else {
+            $flags = RecursiveIteratorIterator::LEAVES_ONLY;
+        }
+        $directory = new RecursiveDirectoryIterator($directory, $flags);
+        $iterator = new RecursiveIteratorIterator($directory);
+        $files = array();
+        foreach ($iterator as $info) {
+            $files[] = $info->getPathname();
+        }
+        return $files;
     }
 
     /**
@@ -412,16 +424,26 @@ class Filesystem
      * @param  string  $directory
      * @return array
      */
-    // public function directories($directory)
-    // {
-    //     $directories = [];
-    //
-    //     foreach (Finder::create()->in($directory)->directories()->depth(0) as $dir) {
-    //         $directories[] = $dir->getPathname();
-    //     }
-    //
-    //     return $directories;
-    // }
+    public function directories($directory)
+    {
+        $directory = new RecursiveDirectoryIterator($directory, RecursiveIteratorIterator::LEAVES_ONLY);
+        $iterator = new RecursiveIteratorIterator($directory);
+        $dirs = array();
+        foreach ($iterator as $dir) {
+            if ($dir->isDir()) {
+                $dirs[] = rtrim($dir->getPathname(), '.');
+            }
+        }
+        return array_unique($dirs);
+
+        // $directories = [];
+        //
+        // foreach (Finder::create()->in($directory)->directories()->depth(0) as $dir) {
+        //     $directories[] = $dir->getPathname();
+        // }
+        //
+        // return $directories;
+    }
 
     /**
      * Create a directory.
