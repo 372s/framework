@@ -123,7 +123,7 @@ class Filesystem
      *
      * @param  string  $path
      * @param  string  $data
-     * @return int
+     * @return bool
      */
     public function prepend($path, $data)
     {
@@ -216,7 +216,7 @@ class Filesystem
      *
      * @param  string  $target
      * @param  string  $link
-     * @return void
+     * @return mixed
      */
     public function link($target, $link)
     {
